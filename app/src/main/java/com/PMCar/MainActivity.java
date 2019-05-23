@@ -38,17 +38,33 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter mBTAdapter;
 
     private final String TAG = MainActivity.class.getSimpleName();
-    private Handler mHandler; // Our main handler that will receive callback notifications
-    public static ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
-    private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
+    /**
+     * Handler for receiving data from BT.
+     *
+     */
+    private Handler mHandler;
 
-    private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
+    /**
+     * Working thread that communicates with HC-05.
+     *
+     */
+    public static ConnectedThread mConnectedThread;
+
+    /**
+     * Socket for communicating with HC-05.
+     *
+     */
+    private BluetoothSocket mBTSocket = null;
+
+    /**
+     * UUID
+     */
+    private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 
-    // #defines for identifying shared types between calling functions
-    private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
-    private final static int CONNECTED = 3; // used in bluetooth handler to identify message status
-    private final static int NOT_CONNECTED = 3;
+    private final static int MESSAGE_READ = 2;
+    private final static int CONNECTED = 3;
+    private final static int NOT_CONNECTED = 4;
     private final static String HC_05_MAC = "98:D3:51:FD:96:00";
 
 
@@ -61,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         mConnect = (Button)findViewById(R.id.connect);
         mRemoteControl = (Button)findViewById(R.id.remote);
         mTimerHandler = new Handler();
-        mBTAdapter = BluetoothAdapter.getDefaultAdapter(); // get a handle on the bluetooth radio
+        mBTAdapter = BluetoothAdapter.getDefaultAdapter();
 
 
         mHandler = new Handler() {
@@ -171,7 +187,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-               Toast.makeText(getApplicationContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
+               Toast.makeText(getApplicationContext(),"Disconnected from device",
+                       Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -265,9 +282,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                     // Read from the InputStream
                     buffer = new byte[1024];
-                    bytes = mmInStream.read(buffer); // record how many bytes we actually read
+                    bytes = mmInStream.read(buffer);
                     mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
-                            .sendToTarget(); // Send the obtained bytes to the UI activity
+                            .sendToTarget();
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -279,10 +296,12 @@ public class MainActivity extends AppCompatActivity {
 
         /* Call this from the main activity to send data to the remote device */
         public void write(String input) {
-            byte[] bytes = input.getBytes();           //converts entered String into bytes
+            byte[] bytes = input.getBytes();
             try {
                 mmOutStream.write(bytes);
-            } catch (IOException e) { }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         /* Call this from the main activity to shutdown the connection */
