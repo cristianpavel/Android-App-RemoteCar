@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/speedUp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".Joystick">
+
+
+    <Button
+        android:id="@+id/goToMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default"
+        android:text="Return to Main Screen" />
+
+    <Button
+        android:id="@+id/speed_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/goToMain"
+        android:background="@android:drawable/btn_default"
+        android:text="Speed up" />
+
+    <Button
+        android:id="@+id/speed_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/speed_up"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="-43dp"
+        android:layout_toEndOf="@+id/speed_up"
+        android:background="@android:drawable/btn_default"
+        android:text="Speed down" />
+
+    <Button
+        android:id="@+id/turnOn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/speed_down"
+        android:background="@android:drawable/btn_default"
+        android:text="Turn Lights On" />
+
+    <Button
+        android:id="@+id/turnOff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/turnOn"
+        android:background="@android:drawable/btn_default"
+        android:text="Turn Lights Off" />
+
+    <Button
+        android:id="@+id/beep_beep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/turnOff"
+        android:background="@android:drawable/btn_default"
+        android:text="Beep Beep" />
+
+    <TextView
+        android:id="@+id/car_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="All things operational" />
+
+
+
+    <io.github.controlwear.virtual.joystick.android.JoystickView
+        android:id="@+id/joystickView_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="64dp"
+        custom:JV_backgroundColor="#009688"
+        custom:JV_borderColor="#00796B"
+        custom:JV_borderWidth="8dp"
+        custom:JV_buttonColor="#FF6E40" />
+
+</RelativeLayout>
