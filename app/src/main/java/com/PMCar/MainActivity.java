@@ -263,18 +263,14 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                     // Read from the InputStream
-                    bytes = mmInStream.available();
-                    if(bytes != 0) {
-                        buffer = new byte[1024];
-                        SystemClock.sleep(100); //pause and wait for rest of data. Adjust this depending on your sending speed.
-                        bytes = mmInStream.available(); // how many bytes are ready to be read?
-                        bytes = mmInStream.read(buffer, 0, bytes); // record how many bytes we actually read
-                        mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
-                                .sendToTarget(); // Send the obtained bytes to the UI activity
-                    }
+                    buffer = new byte[1024];
+                    bytes = mmInStream.read(buffer); // record how many bytes we actually read
+                    mHandler.obtainMessage(MESSAGE_READ, bytes, -1, buffer)
+                            .sendToTarget(); // Send the obtained bytes to the UI activity
+
                 } catch (IOException e) {
                     e.printStackTrace();
-
+                    cancel();
                     break;
                 }
             }
