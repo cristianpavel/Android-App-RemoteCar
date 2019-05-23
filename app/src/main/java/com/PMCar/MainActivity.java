@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         mBTSocket == null)
                     return;
                 try {
+                    mBTAdapter.startDiscovery();
                     mBTSocket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
